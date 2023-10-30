@@ -1,9 +1,14 @@
 import * as esbuild from "esbuild-wasm";
 import axios from "axios";
+import localForage from "localforage";
+
+const fileCache = localForage.createInstance({
+  name: "filecache",
+});
 
 //* Overall  the reason why we have to the option to select certain files to add functions too will depend on what we're trying to bundle. (EX: css file, typescript file, etc)
 
-export const unpkgPathPlugin = () => {
+export const unpkgPathPlugin = (inputCode: string) => {
   return {
     name: "unpkg-path-plugin",
     setup(build: esbuild.PluginBuild) {
@@ -37,19 +42,27 @@ export const unpkgPathPlugin = () => {
         if (args.path === "index.js") {
           return {
             loader: "jsx",
-            contents: `
-              import React from 'react'
-              console.log(React);
-            `,
+            contents: inputCode,
           };
         }
+
+        const cacheResult = await fileCache.getItem<esbuild.OnLoadResult>(
+          args.path
+        );
+        if (cacheResult) {
+          return cacheResult;
+        }
+
         const { data, request } = await axios.get(args.path);
         console.log(request);
-        return {
+        const result: esbuild.OnLoadResult = {
           loader: "jsx",
           contents: data,
           resolveDir: new URL("./", request.responseURL).pathname,
         };
+        await fileCache.setItem(args.path, result);
+
+        return result;
       });
     },
   };
