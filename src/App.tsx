@@ -39,6 +39,13 @@ function App() {
 
     setCode(result.outputFiles[0].text);
 
+    // try {
+    //   eval(result.outputFiles[0].text);
+
+    // } catch (err) {
+
+    // }
+
   };
   // * the target till target what esbuild will try and transpile the users code too
 
@@ -52,6 +59,7 @@ function App() {
         <button onClick={submitCodeHandler}>Submit</button>
       </div>
       <pre>{code}</pre>
+      <iframe sandbox="" src='/test.html' />
     </div>
   );
 }
