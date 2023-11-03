@@ -3,6 +3,8 @@ import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/UnpkgPlugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
 
+
+
 function App() {
   const ref = useRef<any>()
   const [input, setInput] = useState("");
@@ -39,15 +41,15 @@ function App() {
 
     setCode(result.outputFiles[0].text);
 
-    // try {
-    //   eval(result.outputFiles[0].text);
-
-    // } catch (err) {
-
-    // }
 
   };
   // * the target till target what esbuild will try and transpile the users code too
+
+const html = `
+<script>
+${code}
+</script>
+`;
 
   return (
     <div>
@@ -59,7 +61,7 @@ function App() {
         <button onClick={submitCodeHandler}>Submit</button>
       </div>
       <pre>{code}</pre>
-      <iframe sandbox="" src='/test.html' />
+      <iframe sandbox="allow-scripts" srcDoc={html}/>
     </div>
   );
 }
