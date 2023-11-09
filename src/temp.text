@@ -3,3 +3,9 @@ npm install --save-exact @monaco-editor/react@3.7.5 --legacy-peer-deps
 IMPORTANT - You will now need to pass the --legacy-peer-deps flag to every npm install command that is made going forward in this course.
 
 npm install prettier@2 @types/prettier@2 --legacy-peer-deps
+
+
+interface ResizableProps {
+  direction: "horizontal" | "vertical";
+  children?: React.ReactNode;
+}

@@ -3,6 +3,7 @@ import { useState } from "react";
 import CodeEditor from "./CodeEditor";
 import Preview from "./Preview";
 import bundle from "../bundler";
+import Resizable from "./Resizable";
 
 function CodeCell() {
   const [input, setInput] = useState("");
@@ -18,6 +19,7 @@ function CodeCell() {
   };
 
   return (
+    <Resizable direction="vertical" >
     <div>
       <CodeEditor initialValue="Hello" onChange={(value) => setInput(value)} />
       <textarea
@@ -29,6 +31,7 @@ function CodeCell() {
       </div>
       <Preview code={code} />
     </div>
+    </Resizable>
   );
 }
 
