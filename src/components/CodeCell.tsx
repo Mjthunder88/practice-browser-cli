@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import CodeEditor from "./CodeEditor";
 import Preview from "./Preview";
@@ -19,18 +18,16 @@ function CodeCell() {
   };
 
   return (
-    <Resizable direction="vertical" >
-    <div>
-      <CodeEditor initialValue="Hello" onChange={(value) => setInput(value)} />
-      <textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      ></textarea>
-      <div>
-        <button onClick={submitCodeHandler}>Submit</button>
+    <Resizable direction="vertical">
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'row'}}>
+        <Resizable direction="horizontal">
+        <CodeEditor
+          initialValue="Hello"
+          onChange={(value) => setInput(value)}
+        />
+        </Resizable>
+        <Preview code={code} />
       </div>
-      <Preview code={code} />
-    </div>
     </Resizable>
   );
 }
