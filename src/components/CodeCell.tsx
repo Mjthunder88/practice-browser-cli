@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CodeEditor from "./CodeEditor";
 import Preview from "./Preview";
 import bundle from "../bundler";
@@ -8,14 +8,21 @@ function CodeCell() {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
 
+  useEffect(() => {
+    const timer = setTimeout( async () => {
+      const output = await bundle(input);
+      setCode(output)
+    }, 1000)
+
+    return () => {
+      clearTimeout(timer)
+    }
+
+  }, [input])
+
   // useEffect(() => {
   //   startService();
   // }, []); // * The 2nd arg '[]' just means it will only run this function once when it is first rendered to the dom
-
-  const submitCodeHandler = async () => {
-    const output = await bundle(input);
-    setCode(output);
-  };
 
   return (
     <Resizable direction="vertical">

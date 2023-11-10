@@ -1,4 +1,4 @@
-import './preview.css'
+import "./preview.css";
 import { useEffect, useRef } from "react";
 interface PreviewProps {
   code: string;
@@ -6,7 +6,9 @@ interface PreviewProps {
 
 const html = `
 <html>
-  <head></head>
+  <head>
+    <style>html {background-color: white;}</style>
+  </head>
   <body>
   <div id="root"></div>  
     <script>
@@ -32,7 +34,9 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
   useEffect(() => {
     // * Resets the iframe before it transpiles and bundles the code the user put in.
     iframe.current.srcdoc = html;
-    iframe.current.contentWindow.postMessage(code, "*");
+    setTimeout(() => {
+      iframe.current.contentWindow.postMessage(code, "*");
+    }, 50);
   }, [code]);
 
   return (
