@@ -3,3 +3,7 @@ import thunk from 'redux-thunk';
 import reducers from "./reducers";
 
 export const store = createStore(reducers, {}, applyMiddleware(thunk))
+
+
+// * If you ever want to get all of the state from your current store = store.getState();
+
